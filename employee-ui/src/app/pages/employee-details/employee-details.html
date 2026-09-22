@@ -1,0 +1,30 @@
+<div *ngIf="employee() as employee; else loadingOrMissing" class="card">
+	<div class="card-header">
+		<h1 class="h4 mb-0">Employee Details</h1>
+	</div>
+	<div class="card-body">
+		<dl class="row mb-0">
+			<dt class="col-sm-3">ID</dt>
+			<dd class="col-sm-9">{{ employee.id }}</dd>
+			<dt class="col-sm-3">Name</dt>
+			<dd class="col-sm-9">{{ employee.name }}</dd>
+			<dt class="col-sm-3">Department</dt>
+			<dd class="col-sm-9">{{ employee.department }}</dd>
+			<dt class="col-sm-3">Email</dt>
+			<dd class="col-sm-9">{{ employee.email }}</dd>
+		</dl>
+	</div>
+	<div class="card-footer">
+		<a class="btn btn-secondary" routerLink="/employees">Back to Employees</a>
+	</div>
+</div>
+
+<ng-template #loadingOrMissing>
+	<div *ngIf="notFound(); else loading" class="alert alert-warning">
+		Employee not found.
+		<a class="alert-link" routerLink="/employees">Back to Employees</a>
+	</div>
+	<ng-template #loading>
+		<div class="text-center py-5" role="status">Loading employee...</div>
+	</ng-template>
+</ng-template>

@@ -1,0 +1,9 @@
+.login-shell {
+  display: grid;
+  min-height: calc(100vh - 88px);
+  place-items: center;
+}
+
+.login-card {
+  width: min(100%, 420px);
+}

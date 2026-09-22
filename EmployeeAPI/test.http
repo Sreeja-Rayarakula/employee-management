@@ -1,0 +1,57 @@
+@adminUsername = admin
+@adminPassword = replace-with-your-local-admin-password
+@userUsername = user
+@userPassword = replace-with-your-local-user-password
+
+# This request should return 401 Unauthorized.
+GET http://localhost:5015/api/employee
+
+###
+
+# @name adminLogin
+POST http://localhost:5015/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{adminUsername}}",
+  "password": "{{adminPassword}}"
+}
+
+###
+
+@adminToken = {{adminLogin.response.body.$.token}}
+
+# Admin can view employees: 200 OK.
+GET http://localhost:5015/api/employee
+Authorization: Bearer {{adminToken}}
+
+###
+
+# Admin reaches Delete; unknown ID returns 404 rather than 403.
+DELETE http://localhost:5015/api/employee/999999
+Authorization: Bearer {{adminToken}}
+
+###
+
+# @name userLogin
+POST http://localhost:5015/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{userUsername}}",
+  "password": "{{userPassword}}"
+}
+
+###
+
+@userToken = {{userLogin.response.body.$.token}}
+
+# User can view employees: 200 OK.
+GET http://localhost:5015/api/employee
+Authorization: Bearer {{userToken}}
+
+###
+
+# User cannot delete employees: 403 Forbidden.
+DELETE http://localhost:5015/api/employee/999999
+Authorization: Bearer {{userToken}}

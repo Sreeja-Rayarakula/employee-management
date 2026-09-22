@@ -1,0 +1,28 @@
+<div class="login-shell">
+  <div class="card login-card">
+    <div class="card-body p-4">
+      <h1 class="h3 mb-4">Employee Login</h1>
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <form #loginForm="ngForm" (ngSubmit)="login()">
+        <div class="mb-3">
+          <label class="form-label" for="username">Username</label>
+          <input id="username" name="username" class="form-control" required
+            autocomplete="username" [(ngModel)]="username">
+        </div>
+        <div class="mb-4">
+          <label class="form-label" for="password">Password</label>
+          <input id="password" name="password" type="password" class="form-control" required
+            autocomplete="current-password" [(ngModel)]="password">
+        </div>
+        <button class="btn btn-primary w-100" type="submit"
+          [disabled]="loginForm.invalid || isSubmitting()">
+          {{ isSubmitting() ? 'Signing in...' : 'Login' }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

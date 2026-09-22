@@ -1,0 +1,135 @@
+<div class="container mt-4">
+
+  <div
+    *ngIf="message()"
+    class="toast-container position-fixed top-0 end-0 p-3">
+    <div class="toast show text-bg-success border-0" role="status" aria-live="polite">
+      <div class="d-flex">
+        <div class="toast-body">{{ message() }}</div>
+        <button
+          type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          aria-label="Close"
+          (click)="dismissMessage()">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Employees</h1>
+    @if (authService.isAdmin()) {
+      <a class="btn btn-primary" routerLink="/add-employee">Add Employee</a>
+    }
+  </div>
+
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search by Name"
+      [(ngModel)]="searchText"
+      (keyup.enter)="searchEmployees()">
+    <button
+      class="btn btn-outline-primary"
+      type="button"
+      (click)="searchEmployees()">
+      Search
+    </button>
+    <button
+      *ngIf="appliedSearchText"
+      class="btn btn-outline-secondary"
+      type="button"
+      (click)="clearSearch()">
+      Clear
+    </button>
+  </div>
+
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let employee of getFilteredEmployees()">
+        <td>{{ employee.id }}</td>
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.department }}</td>
+        <td>{{ employee.email }}</td>
+        <td>
+
+          <a
+            class="btn btn-info btn-sm me-2"
+            [routerLink]="['/employees', employee.id]">
+            View
+          </a>
+
+          @if (authService.isAdmin()) {
+            <a
+              class="btn btn-warning btn-sm me-2"
+              [routerLink]="['/edit-employee', employee.id]">
+              Edit
+            </a>
+
+            <button
+              class="btn btn-danger btn-sm"
+              (click)="requestDelete(employee)">
+              Delete
+            </button>
+          }
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="getFilteredEmployees().length === 0"
+    class="alert alert-info">
+
+    No employees found.
+
+  </div>
+
+</div>
+
+<div
+  *ngIf="employeePendingDelete() as employee"
+  class="modal d-block"
+  tabindex="-1"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="delete-modal-title">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-5" id="delete-modal-title">Delete employee?</h2>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="cancelDelete()">
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-0">Are you sure you want to delete {{ employee.name }}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancelDelete()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="employeePendingDelete()" class="modal-backdrop show"></div>

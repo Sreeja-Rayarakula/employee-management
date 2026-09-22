@@ -1,0 +1,25 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Angular / Node
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+npm-debug.log*
+
+# Local databases and development configuration
+*.db
+*.db-shm
+*.db-wal
+EmployeeAPI/appsettings.Development.json
+
+# Editors and operating systems
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

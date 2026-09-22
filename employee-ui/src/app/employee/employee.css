@@ -1,0 +1,26 @@
+a {
+	color: #464feb;
+	text-decoration: none;
+}
+
+tr th,
+tr td {
+	border: 1px solid #e6e6e6;
+}
+
+.table thead th {
+	background-color: #212529;
+	color: #fff;
+}
+
+.toast-container {
+	z-index: 1080;
+}
+
+.modal {
+	z-index: 1060;
+}
+
+.modal-backdrop {
+	z-index: 1050;
+}

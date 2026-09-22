@@ -1,0 +1,47 @@
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+
+    <a
+      class="navbar-brand"
+      routerLink="/employees">
+
+      Employee App
+
+    </a>
+
+    @if (authService.isAuthenticated()) {
+    <div class="d-flex gap-2">
+
+      <a
+        class="btn btn-primary"
+        routerLink="/employees">
+
+        Employees
+
+      </a>
+
+      @if (authService.isAdmin()) {
+        <a
+          class="btn btn-success"
+          routerLink="/add-employee">
+
+          Add Employee
+
+        </a>
+      }
+
+      <button class="btn btn-outline-light" type="button" (click)="logout()">
+        Logout
+      </button>
+
+    </div>
+    }
+
+  </div>
+</nav>
+
+<div class="container mt-3">
+
+  <router-outlet></router-outlet>
+
+</div>
